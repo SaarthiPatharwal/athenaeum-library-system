@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In — Athenaeum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:        #1C2321;
+    --forest:     #2F4A3D;
+    --parchment:  #F3E9D3;
+    --card:       #FBF6EA;
+    --brass:      #AD8A4E;
+    --brass-dark: #8C6E38;
+    --moss:       #5C7A56;
+    --burgundy:   #7A3030;
+    --rule:       rgba(28,35,33,0.16);
+    --shadow:     0 6px 18px rgba(28,35,33,0.10);
+    --shadow-lg:  0 20px 46px rgba(28,35,33,0.18);
+  }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    margin:0;
+    min-height: 100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 32px 16px;
+    background:
+      radial-gradient(1000px 480px at 15% -10%, rgba(173,138,78,0.14), transparent),
+      radial-gradient(900px 500px at 100% 110%, rgba(47,74,61,0.10), transparent),
+      var(--parchment);
+    color: var(--ink);
+    font-family: 'Source Sans 3', sans-serif;
+    line-height: 1.5;
+  }
+
+  h1, .display{ font-family:'Fraunces', serif; font-weight:600; letter-spacing:-0.01em; margin:0; }
+  .mono{ font-family:'IBM Plex Mono', monospace; }
+  a{ color: inherit; }
+
+  /* ============================= CARD ============================= */
+  .login-shell{ width:100%; max-width: 408px; }
+
+  .brand-row{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    margin-bottom: 26px;
+  }
+  .brand-row .ring{
+    width: 38px; height:38px;
+    border-radius:50%;
+    background: var(--forest);
+    color:#F6F1E4;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces', serif; font-weight:700; font-size:1.05rem;
+    border: 2px solid var(--brass);
+  }
+  .brand-row .word{ font-size:1.3rem; font-weight:700; }
+
+  .card{
+    background: var(--card);
+    border: 1px solid rgba(28,35,33,0.08);
+    border-radius: 14px;
+    box-shadow: var(--shadow-lg);
+    padding: clamp(26px, 5vw, 38px);
+  }
+
+  .card-head{ text-align:center; margin-bottom: 26px; }
+  .card-head h1{ font-size: 1.6rem; margin-bottom: 6px; }
+  .card-head p{ color: rgba(28,35,33,0.65); font-size: 0.94rem; margin:0; }
+
+  /* ============================= DEMO NOTICE ============================= */
+  .demo-note{
+    font-size: 0.78rem;
+    background: rgba(173,138,78,0.14);
+    border: 1px dashed rgba(173,138,78,0.5);
+    color: var(--brass-dark);
+    padding: 9px 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align:center;
+  }
+  .demo-note b{ font-family:'IBM Plex Mono', monospace; font-weight:600; }
+
+  /* ============================= FORM ============================= */
+  .field{ margin-bottom: 16px; position:relative; }
+  .field label{
+    display:block;
+    font-size: 0.78rem;
+    font-weight:600;
+    letter-spacing:0.03em;
+    text-transform: uppercase;
+    color: rgba(28,35,33,0.62);
+    margin-bottom: 6px;
+  }
+  .input-wrap{ position:relative; }
+  input[type="email"], input[type="password"], input[type="text"]{
+    width:100%;
+    font-family:'Source Sans 3', sans-serif;
+    font-size: 0.98rem;
+    padding: 11px 14px;
+    border-radius: 8px;
+    border: 1.5px solid rgba(28,35,33,0.22);
+    background: #fff;
+    color: var(--ink);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  input::placeholder{ color: rgba(28,35,33,0.38); }
+  input:focus{
+    outline:none;
+    border-color: var(--brass);
+    box-shadow: 0 0 0 3px rgba(173,138,78,0.22);
+  }
+  .field.invalid input{
+    border-color: var(--burgundy);
+  }
+  .field.invalid input:focus{
+    box-shadow: 0 0 0 3px rgba(122,48,48,0.16);
+  }
+  .field.valid input{ border-color: var(--moss); }
+
+  .error-msg{
+    display:none;
+    align-items:center;
+    gap:6px;
+    font-size: 0.8rem;
+    color: var(--burgundy);
+    margin-top: 6px;
+  }
+  .field.invalid .error-msg{ display:flex; }
+
+  #password-field input{ padding-right: 42px; }
+  .eye-toggle{
+    position:absolute;
+    right: 8px; top: 50%;
+    transform: translateY(-50%);
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding: 6px;
+    display:flex;
+    color: rgba(28,35,33,0.55);
+    border-radius: 6px;
+  }
+  .eye-toggle:hover{ color: var(--ink); background: rgba(28,35,33,0.06); }
+  .eye-toggle:focus-visible{ outline: 2px solid var(--brass); outline-offset: 1px; }
+
+  .row-between{
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+    font-size: 0.88rem;
+  }
+  .remember{ display:flex; align-items:center; gap:8px; color: rgba(28,35,33,0.75); }
+  .remember input{ width:16px; height:16px; accent-color: var(--forest); cursor:pointer; }
+  .forgot-link{
+    color: var(--brass-dark);
+    font-weight:600;
+    text-decoration: none;
+  }
+  .forgot-link:hover{ text-decoration: underline; }
+
+  /* general (non-field-specific) auth error banner */
+  #auth-error{
+    display:none;
+    align-items:flex-start;
+    gap:8px;
+    background: rgba(122,48,48,0.09);
+    border: 1px solid rgba(122,48,48,0.25);
+    color: var(--burgundy);
+    font-size: 0.86rem;
+    padding: 10px 12px;
+    border-radius: 8px;
+    margin-bottom: 18px;
+  }
+  #auth-error.show{ display:flex; }
+
+  button{ font-family:'Source Sans 3', sans-serif; cursor:pointer; border:none; }
+
+  .btn-submit{
+    width:100%;
+    background: var(--brass);
+    color: var(--ink);
+    font-weight:700;
+    font-size: 1rem;
+    padding: 13px 16px;
+    border-radius: 9px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap: 10px;
+    transition: background 0.15s ease, transform 0.08s ease, opacity 0.15s ease;
+  }
+  .btn-submit:hover:not(:disabled){ background: var(--brass-dark); color:#fff; }
+  .btn-submit:active:not(:disabled){ transform: translateY(1px); }
+  .btn-submit:disabled{ opacity: 0.75; cursor: not-allowed; }
+
+  .spinner{
+    width: 16px; height:16px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.5);
+    border-top-color: #fff;
+    display:none;
+    animation: spin 0.7s linear infinite;
+  }
+  .btn-submit.loading .spinner{ display:inline-block; }
+  .btn-submit.loading .btn-label::after{ content: "Signing in…"; }
+  .btn-submit.loading .btn-label{ font-size:0; }
+  .btn-submit.loading .btn-label::after{ font-size: 1rem; }
+  @keyframes spin{ to{ transform: rotate(360deg); } }
+
+  /* ============================= DIVIDER ============================= */
+  .divider{
+    display:flex;
+    align-items:center;
+    gap: 12px;
+    margin: 22px 0 18px;
+    color: rgba(28,35,33,0.45);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .divider::before, .divider::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background: rgba(28,35,33,0.15);
+  }
+
+  /* ============================= SOCIAL BUTTONS ============================= */
+  .social-row{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+  .btn-social{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    background:#fff;
+    border: 1.5px solid rgba(28,35,33,0.16);
+    border-radius: 8px;
+    padding: 10px 8px;
+    font-size: 0.86rem;
+    font-weight:600;
+    color: var(--ink);
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .btn-social:hover{ border-color: rgba(28,35,33,0.35); background: rgba(28,35,33,0.03); }
+  .btn-social svg{ flex-shrink:0; }
+  @media (max-width: 380px){
+    .btn-social span{ display:none; }
+  }
+
+  .signup-line{
+    text-align:center;
+    font-size: 0.92rem;
+    color: rgba(28,35,33,0.75);
+  }
+  .signup-line a{ color: var(--forest); font-weight:700; text-decoration:none; }
+  .signup-line a:hover{ text-decoration: underline; }
+
+  /* ============================= FOOTER / SECURITY ============================= */
+  .security-note{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    font-size: 0.76rem;
+    color: rgba(28,35,33,0.5);
+    margin-top: 22px;
+  }
+  .footer-links{
+    text-align:center;
+    margin-top: 12px;
+    font-size: 0.76rem;
+    color: rgba(28,35,33,0.5);
+  }
+  .footer-links a{ color: rgba(28,35,33,0.6); text-decoration: none; }
+  .footer-links a:hover{ text-decoration: underline; }
+  .footer-links .sep{ margin: 0 8px; }
+
+  @media (prefers-reduced-motion: reduce){
+    * { transition:none !important; animation:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="login-shell">
+
+  <div class="brand-row">
+    <span class="ring">A</span>
+    <span class="word">Athenaeum</span>
+  </div>
+
+  <div class="card">
+    <div class="card-head">
+      <h1>Welcome back</h1>
+      <p>Sign in to reach your catalog.</p>
+    </div>
+
+    <div class="demo-note">
+      Connects to the Athenaeum backend — sign up first if you don't have an account yet.
+    </div>
+
+    <div id="auth-error">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><line x1="12" y1="7" x2="12" y2="13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1" fill="currentColor"/></svg>
+      <span>Invalid email or password. Please try again.</span>
+    </div>
+
+    <form id="login-form" novalidate>
+      <div class="field" id="email-field">
+        <label for="email">Email</label>
+        <div class="input-wrap">
+          <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="username" required>
+        </div>
+        <div class="error-msg">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><line x1="12" y1="7" x2="12" y2="13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1" fill="currentColor"/></svg>
+          <span>Enter a valid email address.</span>
+        </div>
+      </div>
+
+      <div class="field" id="password-field">
+        <label for="password">Password</label>
+        <div class="input-wrap">
+          <input type="password" id="password" name="password" placeholder="Enter your password" autocomplete="current-password" required minlength="6">
+          <button type="button" class="eye-toggle" id="eye-toggle" aria-label="Show password" aria-pressed="false">
+            <svg id="eye-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+              <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/>
+            </svg>
+          </button>
+        </div>
+        <div class="error-msg">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/><line x1="12" y1="7" x2="12" y2="13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1" fill="currentColor"/></svg>
+          <span>Password must be at least 6 characters.</span>
+        </div>
+      </div>
+
+      <div class="row-between">
+        <label class="remember">
+          <input type="checkbox" id="remember">
+          Remember me
+        </label>
+        <a class="forgot-link" href="#" id="forgot-link">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="btn-submit" id="submit-btn">
+        <span class="spinner"></span>
+        <span class="btn-label">Log in</span>
+      </button>
+    </form>
+
+    <div class="divider">or continue with</div>
+
+    <div class="social-row">
+      <button class="btn-social" type="button" id="btn-google" aria-label="Continue with Google">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.2-2.27H12v4.3h6.47a5.53 5.53 0 0 1-2.4 3.63v3h3.87c2.27-2.09 3.55-5.17 3.55-8.66Z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.94-2.92l-3.87-3c-1.08.72-2.45 1.15-4.07 1.15-3.13 0-5.78-2.11-6.73-4.96H1.28v3.12A12 12 0 0 0 12 24Z"/><path fill="#FBBC05" d="M5.27 14.27a7.2 7.2 0 0 1 0-4.54V6.61H1.28a12 12 0 0 0 0 10.78l3.99-3.12Z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.44-3.44C17.94 1.19 15.24 0 12 0A12 12 0 0 0 1.28 6.61l3.99 3.12C6.22 6.87 8.87 4.75 12 4.75Z"/></svg>
+        <span>Google</span>
+      </button>
+      <button class="btn-social" type="button" id="btn-apple" aria-label="Continue with Apple">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16.365 1.43c0 1.14-.47 2.24-1.24 3.04-.83.86-2.15 1.53-3.24 1.44-.14-1.1.41-2.26 1.2-3.05.85-.87 2.28-1.5 3.28-1.43ZM20.5 17.2c-.53 1.23-.79 1.78-1.47 2.86-.96 1.51-2.31 3.39-3.98 3.4-1.48.02-1.86-.97-3.87-.96-2 .01-2.43.98-3.91.96-1.67-.02-2.95-1.72-3.91-3.23C1 16.3.63 11.86 2.32 9.5c1.2-1.68 3.1-2.66 4.87-2.66 1.8 0 2.94 1 4.43 1 1.45 0 2.33-1 4.43-1 1.58 0 3.25.86 4.44 2.35-3.9 2.14-3.27 7.7.01 8Z"/></svg>
+        <span>Apple</span>
+      </button>
+      <button class="btn-social" type="button" id="btn-microsoft" aria-label="Continue with Microsoft">
+        <svg width="16" height="16" viewBox="0 0 24 24"><rect x="1" y="1" width="10" height="10" fill="#F35325"/><rect x="13" y="1" width="10" height="10" fill="#81BC06"/><rect x="1" y="13" width="10" height="10" fill="#05A6F0"/><rect x="13" y="13" width="10" height="10" fill="#FFBA08"/></svg>
+        <span>Microsoft</span>
+      </button>
+    </div>
+
+    <p class="signup-line">Don't have an account? <a href="athenaeum-signup.html" id="signup-link">Create one</a></p>
+
+    <div class="security-note">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.8"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="1.8"/></svg>
+      Your details stay on this device — this is a front-end demo only
+    </div>
+    <div class="footer-links">
+      <a href="athenaeum-privacy.html">Privacy Policy</a><span class="sep">·</span><a href="athenaeum-terms.html">Terms of Service</a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  // Change this if your backend runs somewhere other than localhost:3001
+  // (e.g. after deploying it, set this to your server's real URL).
+  const API_BASE = 'http://localhost:3001';
+
+  const form = document.getElementById('login-form');
+  const emailField = document.getElementById('email-field');
+  const emailInput = document.getElementById('email');
+  const passwordField = document.getElementById('password-field');
+  const passwordInput = document.getElementById('password');
+  const eyeToggle = document.getElementById('eye-toggle');
+  const eyeIcon = document.getElementById('eye-icon');
+  const submitBtn = document.getElementById('submit-btn');
+  const authError = document.getElementById('auth-error');
+
+  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  /* =====================================================================
+   * REAL-TIME INLINE VALIDATION
+   * Fields are marked invalid only after the user has interacted with them
+   * (on blur, or while typing once they've already been touched), so we
+   * don't shame an empty field before the user has had a chance to type.
+   * ===================================================================== */
+  function validateEmail(showState){
+    const value = emailInput.value.trim();
+    const isValid = EMAIL_RE.test(value);
+    if (showState){
+      emailField.classList.toggle('invalid', !isValid);
+      emailField.classList.toggle('valid', isValid);
+    }
+    return isValid;
+  }
+
+  function validatePassword(showState){
+    const value = passwordInput.value;
+    const isValid = value.length >= 6;
+    if (showState){
+      passwordField.classList.toggle('invalid', !isValid);
+      passwordField.classList.toggle('valid', isValid);
+    }
+    return isValid;
+  }
+
+  emailInput.addEventListener('blur', () => validateEmail(true));
+  emailInput.addEventListener('input', () => {
+    if (emailField.classList.contains('invalid') || emailField.classList.contains('valid')){
+      validateEmail(true);
+    }
+    authError.classList.remove('show');
+  });
+
+  passwordInput.addEventListener('blur', () => validatePassword(true));
+  passwordInput.addEventListener('input', () => {
+    if (passwordField.classList.contains('invalid') || passwordField.classList.contains('valid')){
+      validatePassword(true);
+    }
+    authError.classList.remove('show');
+  });
+
+  /* =====================================================================
+   * SHOW / HIDE PASSWORD TOGGLE
+   * ===================================================================== */
+  eyeToggle.addEventListener('click', function(){
+    const isHidden = passwordInput.type === 'password';
+    passwordInput.type = isHidden ? 'text' : 'password';
+    eyeToggle.setAttribute('aria-pressed', String(isHidden));
+    eyeToggle.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+    eyeIcon.innerHTML = isHidden
+      ? '<path d="M3 3l18 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M10.6 5.1A11 11 0 0 1 12 5c7 0 11 7 11 7a17.9 17.9 0 0 1-3.2 4.1M6.6 6.6C3.4 8.5 1 12 1 12s4 7 11 7c1.4 0 2.7-.25 3.9-.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2" stroke="currentColor" stroke-width="1.8"/>'
+      : '<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8"/>';
+  });
+
+  /* =====================================================================
+   * FORM SUBMIT — real API call to the Athenaeum backend, storing the
+   * session token on success and redirecting to the catalog.
+   * ===================================================================== */
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    authError.classList.remove('show');
+
+    const emailOk = validateEmail(true);
+    const passwordOk = validatePassword(true);
+    if (!emailOk || !passwordOk) return;
+
+    // Prevent double-submits and give clear loading feedback.
+    submitBtn.disabled = true;
+    submitBtn.classList.add('loading');
+
+    try {
+      const response = await fetch(`${API_BASE}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: emailInput.value.trim(),
+          password: passwordInput.value,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        authError.querySelector('span').textContent = data.error || 'Invalid email or password.';
+        authError.classList.add('show');
+        return;
+      }
+
+      // Store the session token so the catalog page can authenticate requests.
+      // sessionStorage clears when the tab closes; localStorage persists across
+      // browser restarts — used here only if "Remember me" is checked.
+      const storage = document.getElementById('remember').checked ? window.localStorage : window.sessionStorage;
+      storage.setItem('athenaeum_token', data.token);
+      storage.setItem('athenaeum_user', JSON.stringify(data.user));
+
+      window.location.href = 'athenaeum-library.html';
+    } catch (err) {
+      authError.querySelector('span').textContent =
+        'Could not reach the server. Make sure the Athenaeum backend is running (node server.js).';
+      authError.classList.add('show');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.classList.remove('loading');
+    }
+  });
+
+  // Placeholder handlers for links that would route elsewhere in a real app.
+  document.getElementById('forgot-link').addEventListener('click', function(e){
+    e.preventDefault();
+    alert('In the full app, this would send a password reset email.');
+  });
+  ['btn-google','btn-apple','btn-microsoft'].forEach(function(id){
+    document.getElementById(id).addEventListener('click', function(){
+      alert('In the full app, this would start OAuth sign-in with this provider.');
+    });
+  });
+})();
+</script>
+</body>
+</html>

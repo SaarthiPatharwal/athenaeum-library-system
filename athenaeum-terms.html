@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service — Athenaeum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:        #1C2321;
+    --forest:     #2F4A3D;
+    --parchment:  #F3E9D3;
+    --card:       #FBF6EA;
+    --brass:      #AD8A4E;
+    --brass-dark: #8C6E38;
+    --rule:       rgba(28,35,33,0.16);
+    --shadow:     0 6px 18px rgba(28,35,33,0.10);
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{
+    background:
+      radial-gradient(1200px 500px at 10% -10%, rgba(173,138,78,0.10), transparent),
+      var(--parchment);
+    color: var(--ink);
+    font-family:'Source Sans 3', sans-serif;
+    line-height:1.6;
+  }
+  h1,h2{ font-family:'Fraunces', serif; font-weight:600; letter-spacing:-0.01em; }
+  a{ color: var(--brass-dark); text-decoration:none; font-weight:600; }
+  a:hover{ text-decoration:underline; }
+  .wrap{ max-width: 760px; margin: 0 auto; padding: clamp(32px,6vw,64px) clamp(16px,4vw,24px) 80px; }
+
+  .top-link{ display:inline-flex; align-items:center; gap:6px; font-size:0.9rem; margin-bottom:28px; color: var(--forest); }
+
+  .notice{
+    background: var(--card);
+    border: 1px dashed rgba(173,138,78,0.5);
+    border-radius: 10px;
+    padding: 16px 20px;
+    font-size: 0.88rem;
+    color: var(--brass-dark);
+    margin-bottom: 36px;
+  }
+
+  h1{ font-size: clamp(1.8rem, 4vw, 2.4rem); margin-bottom: 6px; }
+  .updated{ font-family:'IBM Plex Mono', monospace; font-size:0.78rem; color: rgba(28,35,33,0.5); margin-bottom: 36px; }
+
+  section{ margin-bottom: 30px; }
+  h2{ font-size: 1.15rem; margin-bottom: 10px; color: var(--forest); }
+  p{ color: rgba(28,35,33,0.82); margin-bottom: 12px; }
+  ul{ margin: 0 0 12px 22px; color: rgba(28,35,33,0.82); }
+  li{ margin-bottom: 6px; }
+
+  footer{
+    border-top: 1px solid var(--rule);
+    margin-top: 50px;
+    padding-top: 24px;
+    font-size: 0.82rem;
+    color: rgba(28,35,33,0.55);
+    text-align:center;
+  }
+  footer a{ color: rgba(28,35,33,0.6); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="top-link" href="javascript:history.back()">&larr; Back</a>
+
+  <div class="notice">
+    This is a template document written for an academic course project. It is provided as an illustrative example of what a Terms of Service page looks like and is not a legally binding agreement.
+  </div>
+
+  <h1>Terms of Service</h1>
+  <div class="updated">Last updated: July 2026</div>
+
+  <section>
+    <h2>1. Acceptance of Terms</h2>
+    <p>By accessing or using Athenaeum ("the Service"), you agree to be bound by these Terms of Service. This Service is a demonstration project built for educational purposes and is not intended for production use or the storage of real personal data.</p>
+  </section>
+
+  <section>
+    <h2>2. Description of the Service</h2>
+    <p>Athenaeum is a library catalog and management interface that allows a user to add, search, sort, issue, and return books within a demonstration collection. Data entered into the web interface is held in the browser session only and is not transmitted to or stored on any server.</p>
+  </section>
+
+  <section>
+    <h2>3. Accounts</h2>
+    <p>Any account creation, sign-in, or authentication flow within this Service is simulated for demonstration purposes. No real credentials are verified, stored, or shared with any third party.</p>
+  </section>
+
+  <section>
+    <h2>4. Acceptable Use</h2>
+    <p>As a demonstration project, you agree not to:</p>
+    <ul>
+      <li>Attempt to use the Service to store, process, or transmit real personal or sensitive data;</li>
+      <li>Misrepresent this project as a production system handling genuine library records;</li>
+      <li>Use the Service in any way that violates applicable laws or regulations.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>5. Intellectual Property</h2>
+    <p>The source code, design, and content of this project were created as part of an academic submission. Reuse of the code for learning or portfolio purposes is welcome; commercial use should not be assumed to be permitted without the author's consent.</p>
+  </section>
+
+  <section>
+    <h2>6. Disclaimer of Warranty</h2>
+    <p>The Service is provided "as is," without warranty of any kind, express or implied. As an academic project, it has not undergone the security, reliability, or compliance review required of a production system.</p>
+  </section>
+
+  <section>
+    <h2>7. Limitation of Liability</h2>
+    <p>In no event shall the author be liable for any damages arising from the use, or inability to use, this demonstration Service.</p>
+  </section>
+
+  <section>
+    <h2>8. Changes to These Terms</h2>
+    <p>These terms may be updated at any time as the project evolves. Continued use of the Service after changes are posted constitutes acceptance of the revised terms.</p>
+  </section>
+
+  <section>
+    <h2>9. Contact</h2>
+    <p>Questions about this project can be directed to its author, Saarthi Patharwal, in the context of the course submission it was created for.</p>
+  </section>
+
+  <footer>
+    &copy; 2026 Athenaeum &middot; <a href="athenaeum-privacy.html">Privacy Policy</a>
+  </footer>
+</div>
+</body>
+</html>
